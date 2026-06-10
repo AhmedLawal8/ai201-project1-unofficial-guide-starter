@@ -10,6 +10,7 @@
 ## Domain
 
 <!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
+I chose Campus dining experiences at my school (Lehigh University). This knowledge is hard to find through official channels because even though Lehigh's dining website tells you hours and locations. It won't tell you specific information such as if a certain station in the main dining hall always has long wait time on weekday mornings, or that students on the unlimited meal plan actually save money eating off-campus on weekends.
 
 ---
 
@@ -20,16 +21,16 @@
 
 | # | Source | Description | URL or location |
 |---|--------|-------------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| 1 | Reddit | Student reviews of Food at Lehigh | https://www.reddit.com/r/Lehigh/comments/1k8v2ru/food_for_incoming_freshmen/ |
+| 2 | Yelp | Reviews of Rathbone (Main dining hall) Food | https://www.yelp.com/biz/rathbone-bethlehem |
+| 3 | Lehigh Sodexo | Lehigh's Official Dinning website | https://lehigh.sodexomyway.com/en-us/locations/ |
+| 4 | Brown and White | University Article on Meal plan and dining changes | https://thebrownandwhite.com/2025/09/12/meal-plan-and-dining-changes-cause-mixed-student-reactions/ |
+| 5 | Reddit |Addional Student reviews | https://www.reddit.com/r/Lehigh/comments/uwg358/how_is_the_dining_hall_food_at_lehigh/ |
+| 6 | Lehigh Offical Blog Website | A student's Favorite Restaurants in Bethlehem, Pa  | https://blog.lehigh.edu/a-foodies-5-favorite-restaurants-in-bethlehem-pa |
+| 7 | Lehigh official website | Restaurants near Lehigh University | https://www2.lehigh.edu/about/restaurants-near-lehigh-university |
+| 8 | Lehigh Sodexo | Meal Plan Options  | https://lehigh.sodexomyway.com/en-us/meal-plan/meal-plan-options|
+| 9 | Yelp | Resturant reviews near Lehigh| https://www.yelp.com/search?find_near=lehigh-university-bethlehem&l=g%3A-75.37010279846594%2C40.617429838019575%2C-75.38307364189582%2C40.60568241189106 |
+| 10 | Reddit | Food Spots in the Lehigh Valley | https://www.reddit.com/r/lehighvalley/comments/17t2wpp/best_restaurantsfood_spots_in_the_lehigh_valley/ |
 
 ---
 
@@ -40,12 +41,13 @@
      numbers fit the structure of your documents.
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
-**Chunk size:**
+**Chunk size:** ~300–400 tokens
 
-**Overlap:**
+**Overlap:** ~50 tokens 
 
-**Reasoning:**
+**Reasoning:** We'll split on paragraph or sentence boundaries where possible, rather than hard character cuts to preserve meaning
 
+Student reviews and forum posts tend to be short, punchy, and topic-specific. Smaller chunks match that grain. Overlap ensures a sentence that straddles a boundary isn't lost.
 ---
 
 ## Retrieval Approach
