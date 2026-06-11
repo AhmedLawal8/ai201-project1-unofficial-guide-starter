@@ -41,13 +41,12 @@ I chose Campus dining experiences at my school (Lehigh University). This knowled
      numbers fit the structure of your documents.
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
-**Chunk size:** ~300–400 tokens
+**Chunk size:** ~200-250 tokens would allow us to carry enough semantic meaning
 
-**Overlap:** ~50 tokens 
+**Overlap:** ~50 tokens would give a good amount of information to carry semantic context
 
-**Reasoning:** We'll split on paragraph or sentence boundaries where possible, rather than hard character cuts to preserve meaning
+**Reasoning:** We'll overlap with 50 tokens rather than hard cuts to preserve meaning. For one student reviews and forum posts tend to be short, punchy, and topic-specific. Smaller chunks match that grain. Overlap ensures a sentence that straddles a boundary isn't lost.
 
-Student reviews and forum posts tend to be short, punchy, and topic-specific. Smaller chunks match that grain. Overlap ensures a sentence that straddles a boundary isn't lost.
 ---
 
 ## Retrieval Approach
@@ -58,11 +57,12 @@ Student reviews and forum posts tend to be short, punchy, and topic-specific. Sm
      would you weigh in choosing a different embedding model — context length, multilingual
      support, accuracy on domain-specific text, latency? -->
 
-**Embedding model:**
+**Embedding model:** all-MiniLM-L6-v2 via sentence-transformers ( runs fully locally with no API key or cost)
 
-**Top-k:**
+**Top-k:**  4 - 6 Chunks. Too few risks missing a relevant chunk and too many floods the LLM with noisy context
 
 **Production tradeoff reflection:**
+With no cost constraint I'd weigh the context length, domain accuracy, multilingual support, and latency. The model I chose (all-MiniLM-L6-v2) caps at 256 tokens, so longer documents get truncated. Thus a different model might support thousands of tokens which would handle richer source material better. Also a students writing may be informal and slang heavy so a model fine-tuned on that would retrieve more precisely. Additionally, a real campus tool likely need to serve non-English speakers, where a multilingual model would be the better fit. Lastly local models return embeddings instantly while cloud API models add network round-trip time on every query, which matters at scale.
 
 ---
 
@@ -75,11 +75,11 @@ Student reviews and forum posts tend to be short, punchy, and topic-specific. Sm
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives?  | Students generally enjoy many of the off-campus options such as the Nawab Indian Restaurant and Hi-Pot  |
+| 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?  | Students report vegan options are avaliable at Rathbone such as Simple Servings |
+| 3 | How long are the wait times at Hawks Nest for Lunch if I order French Fries | Not uncommon to wait 40 minutes for an order of French fries |
+| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Meal swipes previosuly had a $7 equivalency at retail dining locations. Lehigh Dining has swapped out this program with “meal exchanges,” leaving students annoyed and worried.
+| 5 | Where can I find some good local Chinese Food around Lehigh? | If you're in the mood for spicy and flavorful Chinese food, I'd recommend ShangWei Szechuan |
 
 ---
 
@@ -89,10 +89,9 @@ Student reviews and forum posts tend to be short, punchy, and topic-specific. Sm
      Consider: noisy or inconsistent documents, missing source attribution, off-topic
      retrieval, chunks that split key information across boundaries. -->
 
-1.
+1. Student reviews use slang and casual phrasing ("waited forever," "not worth it," "mid food") while queries are phrased more formally. The embedding model may not bridge that gap well, causing relevant chunks to rank lower than they should. For example a query like "what are wait times at Hawks Nest" might miss a review that says "stood there forever just for fries."
 
-2.
-
+2. Some questions like Q4 (meal plan changes) may have their full answer scattered across several different posts rather than concentrated in one chunk. If the most relevant pieces land in different chunks and only some get retrieved in the top-k, the LLM will produce a partially correct or incomplete answer with no way to know what it missed.
 ---
 
 ## Architecture
@@ -102,6 +101,18 @@ Student reviews and forum posts tend to be short, punchy, and topic-specific. Sm
      Label each stage with the tool or library you're using.
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
+
+```mermaid
+flowchart TD
+    A[Raw .txt docs] --> B[Cleaner]
+    B --> C[Chunker]
+    C --> D[all-MiniLM-L6-v2]
+    D --> E[ChromaDB]
+    E --> F[Retriever]
+    F --> G[Groq\nllama-3.3-70b]
+    G --> H[Answer]
+    I[User query] --> F
+```
 
 ---
 
@@ -119,6 +130,38 @@ Student reviews and forum posts tend to be short, punchy, and topic-specific. Sm
 
 **Milestone 3 — Ingestion and chunking:**
 
+- **Tool:** Claude
+- **Input:** The "Document Ingestion Pipeline" and "Chunking Strategy" sections
+  of this planning.md
+- **Expected output:** Two functions — `clean_text(raw: str) -> str` that strips
+  whitespace artifacts and blank lines, and `chunk_text(text: str, chunk_size: int,
+  overlap: int) -> list[str]` that splits on sentence/paragraph boundaries with
+  200–250 word chunks and 30–40 word overlap
+- **Verification:** Run both functions on one raw .txt file and manually confirm
+  the output chunks are readable, not cut mid-sentence, and each stays under
+  250 words
+
 **Milestone 4 — Embedding and retrieval:**
+- **Tool:** Claude
+- **Input:** The "Vector Store and Semantic Search" section plus the ChromaDB and
+  sentence-transformers entries from requirements.txt
+- **Expected output:** Two functions — `embed_and_store(chunks: list[str], metadata:
+  list[dict])` that encodes chunks with all-MiniLM-L6-v2 and upserts them into a
+  local ChromaDB collection, and `retrieve(query: str, k: int) -> list[dict]` that
+  returns the top-k chunks with their source filenames and similarity scores
+- **Verification:** Run a known query (e.g. "wait times at Hawks Nest") against the
+  stored chunks and confirm the top result comes from the correct source document
+  with a similarity score above 0.7
 
 **Milestone 5 — Generation and interface:**
+
+- **Tool:** Claude
+- **Input:** The "Grounded Response Generation" section including the example prompt
+  structure, plus the Groq model name (llama-3.3-70b-versatile) from the tech stack
+- **Expected output:** A `generate(query: str, chunks: list[dict]) -> str` function
+  that builds the grounded prompt, calls the Groq API, and returns an answer with
+  inline source citations — plus a CLI loop in interface.py that accepts a question,
+  calls retrieve() then generate(), and prints the answer and sources used
+- **Verification:** Run all 5 evaluation questions from test_questions.md through
+  the full pipeline end-to-end and confirm each answer cites a real source file and
+  does not hallucinate details not present in the retrieved chunks
