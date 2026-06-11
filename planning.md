@@ -27,10 +27,10 @@ I chose Campus dining experiences at my school (Lehigh University). This knowled
 | 4 | Brown and White | University Article on Meal plan and dining changes | https://thebrownandwhite.com/2025/09/12/meal-plan-and-dining-changes-cause-mixed-student-reactions/ |
 | 5 | Reddit |Addional Student reviews | https://www.reddit.com/r/Lehigh/comments/uwg358/how_is_the_dining_hall_food_at_lehigh/ |
 | 6 | Lehigh Offical Blog Website | A student's Favorite Restaurants in Bethlehem, Pa  | https://blog.lehigh.edu/a-foodies-5-favorite-restaurants-in-bethlehem-pa |
-| 7 | Lehigh official website | Restaurants near Lehigh University | https://www2.lehigh.edu/about/restaurants-near-lehigh-university |
+| 7 | Lehigh PDF Dietiation Guide | Detailed overview on Dining with Dietary Restrictions | .documents/dietary_restrictions.pdf |
 | 8 | Lehigh Sodexo | Meal Plan Options  | https://lehigh.sodexomyway.com/en-us/meal-plan/meal-plan-options|
 | 9 | Yelp | Resturant reviews near Lehigh| https://www.yelp.com/search?find_near=lehigh-university-bethlehem&l=g%3A-75.37010279846594%2C40.617429838019575%2C-75.38307364189582%2C40.60568241189106 |
-| 10 | Reddit | Food Spots in the Lehigh Valley | https://www.reddit.com/r/lehighvalley/comments/17t2wpp/best_restaurantsfood_spots_in_the_lehigh_valley/ |
+| 10 | Reddit | Student Food reviews | https://www.reddit.com/r/Lehigh/comments/g83s2n/food_at_lehigh/ |
 
 ---
 

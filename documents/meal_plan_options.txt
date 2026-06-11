@@ -1,0 +1,24 @@
+
+All dining meal plan options include: All Access 7, 240 Block Plan, 220 Block Plan, 180 Block Plan, 160 Block Plan, 
+80 Block Plan, 40 Block Plan, Dining Dollar Plan, and Hello Fresh Plan. Each plan varies in swipes, dining dollars, and pricing.
+
+All Access 7 is a first-year meal plan that includes unlimited swipes, 375 dining dollars, 10 meal exchanges per week, and 5 guest meals. 
+The total price is 4,675 dollars.
+
+The 240 Block Plan is a first-year meal plan with 240 swipes, 525 dining dollars, 5 meal exchanges per week, and 3 guest meals. 
+The price is 3,880 dollars.
+
+The 220 Block Plan is a first-year meal plan with 220 swipes, 650 dining dollars, and 7 meal exchanges per week. 
+The price is 3,880 dollars.
+
+The 180 Block Plan includes 180 swipes or meal exchanges and 900 dining dollars. The price is 3,520 dollars.
+
+The 160 Block Plan includes 160 swipes or meal exchanges and 1,185 dining dollars. The price is 3,520 dollars.
+
+The 80 Block Plan includes 80 swipes or meal exchanges and 650 dining dollars. The price is 1,845 dollars.
+
+The 40 Block Plan includes 40 swipes or meal exchanges and 750 dining dollars. The price is 1,370 dollars.
+
+The Dining Dollar Plan includes 1,050 dining dollars with no swipes. The price is 1,000 dollars.
+
+The Hello Fresh Plan includes 4 meals per week (2x2 meals) for 12 weeks and 150 dining dollars. The price is 775 dollars.
