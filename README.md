@@ -71,6 +71,7 @@ I chose Campus dining experiences at my school (Lehigh University). This knowled
 **Production tradeoff reflection:**
 With no cost constraint I'd weigh the context length, domain accuracy, multilingual support, and latency. The model I chose (all-MiniLM-L6-v2) caps at 256 tokens, so longer documents get truncated. Thus a different model might support thousands of tokens which would handle richer source material better. Also a students writing may be informal and slang heavy so a model fine-tuned on that would retrieve more precisely. Additionally, a real campus tool likely need to serve non-English speakers, where a multilingual model would be the better fit. Lastly local models return embeddings instantly while cloud API models add network round-trip time on every query, which matters at scale.
 
+
 ---
 
 ## Grounded Generation
@@ -119,6 +120,82 @@ In the Gradio UI, a "Sources retrieved" panel shows the unique filenames from al
 
 **Retrieval quality:** Relevant / Partially relevant / Off-target  
 **Response accuracy:** Accurate / Partially accurate / Inaccurate
+
+---
+
+## Retrieval and Response Examples
+
+### Example 1 — Hawks Nest wait times
+
+**Query:** "How long are the wait times at Hawks Nest for lunch if I order French Fries?"
+
+**Top retrieved chunks:**
+
+> `[student_review1.txt]`  
+> Hawks Nest currently has several retail options but is being remodeled and will lose most of them. It is heavily criticized for long wait times, incorrect orders, and poor food quality. Wait times of 40 minutes for fries are not uncommon and food quality is often described as poor.
+
+> `[student_review1.txt]`  
+> Food trucks like Fud Truk, Purple Pita, and Talon serve some of the best food on campus. However, they are inconsistent and often unavailable during bad weather, Fridays, or weekends.
+
+**Why these chunks are relevant:** The first chunk is an exact match — it contains the specific phrase "40 minutes for fries" and names Hawks Nest directly. The embedding model picked this up because the query and the chunk share the same concrete entities (Hawks Nest, fries, wait time). The second chunk came from the same file and shares surrounding context about on-campus food quality, pulling it into the top-k by proximity in the embedding space even though it adds nothing to the answer. The model correctly ignored it.
+
+**System response:**
+
+> Wait times of 40 minutes for fries are not uncommon at Hawks Nest [student_review1.txt]. The location is also frequently criticized for incorrect orders and poor food quality overall [student_review1.txt].
+
+---
+
+### Example 2 — Meal plan changes
+
+**Query:** "What changes has Lehigh made to the meal plans and how do students feel about it?"
+
+**Top retrieved chunks:**
+
+> `[meal_plan_changes.txt]`  
+> Lehigh Dining has modified meal plans and dining options for the 2025-26 academic year, prompting mixed reactions from the student body. The number of meal plans available has been reduced from eight to six. Meal swipes are also no longer able to be exchanged for dining dollars at retail locations and can only be used at dining halls. Last spring, meal swipes had a $7 equivalency at retail dining locations. Lehigh Dining has swapped out this program with "meal exchanges," where students can get several items under one "exchange."
+
+> `[meal_plan_changes.txt]`  
+> According to Lehigh Dining, the current default meal plan for first-year students consists of 240 meal swipes and $525 dining dollars, costing $3,690 per semester. The cost of the first-year meal plan in fall 2024 was $3,550 per semester. Charlie Keenan, '28, said she isn't sure if she enjoys the new meal plan system. "I liked what we had last year, where if I wanted to spend $7 equivalent of a meal swipe, I could."
+
+> `[meal_plan_changes.txt]`  
+> Audrey Pankauskas, '28, said she's worried about running out of dining dollars, because her meals usually cost at least $13. "I'm not going to go to the big dining halls as much as I did last year," Pankauskas said. "Everything is dining dollars."
+
+**Why these chunks are relevant:** All three chunks came from `meal_plan_changes.txt`, which is the dedicated article on this exact topic. The query used the phrase "meal plans" and "how do students feel," which align closely with how the source document is written — it's a student news article that interleaves policy facts with student quotes. The retriever's top-k was almost entirely this file, which is why the response was the most complete of all five test questions.
+
+**System response:**
+
+> Lehigh Dining reduced the number of meal plans from eight to six for the 2025-26 academic year [meal_plan_changes.txt]. The previous $7-per-swipe equivalency at retail locations has been replaced with "meal exchanges" [meal_plan_changes.txt]. The default first-year plan now costs $3,690 per semester, up from $3,550 [meal_plan_changes.txt]. Student reactions are mixed — some are frustrated by the lost flexibility, with one student saying "I liked what we had last year, where if I wanted to spend $7 equivalent of a meal swipe, I could" [meal_plan_changes.txt].
+
+---
+
+### Example 3 — Dietary accommodations
+
+**Query:** "What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?"
+
+**Top retrieved chunks:**
+
+> `[dietary_restrictions.txt]`  
+> Simple Servings at Rathbone Dining Hall and the University Center provide safe and appetizing food choices for our customers with food allergies, gluten intolerance, and those who prefer simple food. All foods served at Simple Servings are prepared with ingredients that do not contain milk, eggs, wheat, soy, shellfish, peanuts, tree nuts, sesame, or gluten. The stations use separate equipment/utensils, preparation and storage areas to minimize allergen and gluten cross-contact.
+
+> `[student_review1.txt]`  
+> Simple Servings is for people with allergies. It's free of the top 9. While it could be bland for those who can eat everything, it's vital for those with restrictions.
+
+> `[meal_plan_changes.txt]`  
+> Keenan has lived with celiac disease since age 7. She said she was very cautious about picking a school that had a lot of options and somewhere she would be able to eat safely.
+
+---
+
+### Out-of-scope query — system refusal
+
+**Query:** "Where can I eat off campus?"
+
+**Top retrieved chunks:** The retriever returned chunks from `student_review1.txt`, `student_review3.txt`, and `dietary_restrictions.txt` — all on-campus content. These ranked highest because on-campus review chunks frequently use the phrase "off campus" as a contrast point ("the dining hall isn't worth it, just eat off campus"), which the embedding model matched to the query even though those chunks contain no actual off-campus restaurant information.
+
+**System response:**
+
+> I don't have enough information to provide a comprehensive answer about eating off campus, as the provided sources primarily discuss on-campus dining options [student_review1.txt, student_review3.txt, dietary_restrictions.txt]. None of the sources mention specific off-campus dining locations.
+
+The model correctly refused rather than hallucinating restaurant names. The refusal instruction ("Only say 'I don't have enough information' if NONE of the sources address the question") fired correctly here because the retrieved chunks genuinely contained no relevant information, even though `off_campus_food.txt` and `blog_post_.txt` existed in the corpus — they just weren't retrieved for this query.
 
 ---
 
