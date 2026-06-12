@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     # --- Step 2: Verify retrieval with a known query (from planning.md) ---
     print("\n=== Step 2: Retrieval verification ===")
-    test_query = "What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?"
+    test_query = "Where can students find some good local Chinese food around Lehigh?"
     print(f"Query: '{test_query}'")
     print("-" * 60)
 

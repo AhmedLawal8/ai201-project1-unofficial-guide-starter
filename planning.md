@@ -75,11 +75,11 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives?  | Students are pretty dissapointed with the food at Lehigh. Rathbone is typically a hit or miss but there are a vareity of options avaliable |
-| 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?  | Students report vegan options are avaliable at Rathbone such as Simple Servings which use ingredients that do not contain milk, eggs, wheat, soy, shellfish, peanuts, tree nuts, sesame, or gluten  |
-| 3 | How long are the wait times at Hawks Nest for Lunch if I order French Fries | It is not uncommon to wait 40 minutes for an order of French fries |
-| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Lehigh cut meal plan options from eight to six and got rid of swapping swipes for dining dollars, replacing it with meal exchanges and more dining dollars in some plans. Students are kind of mixed on it, with some saying it feels less flexible and harder to budget, especially with dining dollars running out faster. |
-| 5 | Where can I find some good local Chinese Food around Lehigh? | If you're in the mood for spicy and flavorful Chinese food, I'd recommend ShangWei Szechuan |
+| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives? | On-campus food is decent but overpriced; Rathbone is a hit or miss. Off-campus options like Nawab Indian Restaurant and Hi-Pot are recommended. |
+| 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly? | Simple Servings at Rathbone is free of the top 9 allergens (milk, eggs, wheat, soy, shellfish, peanuts, tree nuts, sesame, gluten). Vegan options are available. Some food safety concerns (raw chicken) have been rep
+| 3 | How long are the wait times at Hawks Nest for lunch if I order French Fries? | Not uncommon to wait 40 minutes for an order of French fries. |
+| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Plans reduced from 8 to 6; meal swipes can no longer be exchanged for dining dollars — replaced with "meal exchanges." Cost increased to $3,690/semester. Students have mixed reactions, with some frustrated by the lost flexibility. |
+| 5 | Where can I find some good local Chinese food around Lehigh? | ShangWei Szechuan in Bethlehem serves authentic Szechuan cuisine including Kung Pao chicken and Dandan noodles. U & Teishes like stir-fried string beans and chicken ho fun noodles. |
 
 ---
 
