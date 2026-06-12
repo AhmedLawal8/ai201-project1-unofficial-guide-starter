@@ -84,6 +84,6 @@ if __name__ == "__main__":
         src = chunk_data["source"]
         id = chunk_data["chunk_index"]
         words = len(chunk_data["text"].split())
-        print(f"=== {src}_{id}  (chunk  — {words} words) ===")
+        print(f"=== {src}_{id}  (chunk  - {words} words) ===")
         print(chunk_data["text"])
         print()

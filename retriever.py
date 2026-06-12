@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer
 COLLECTION_NAME = "lehigh_dining"
 DB_PATH = "./chroma_db"
 
-# Module-level singletons — loading the model takes ~2s, so we do it once per process
+# Module-level singletons - loading the model takes ~2s, so we do it once per process
 _model = None
 _collection = None
 
@@ -22,7 +22,7 @@ def _get_collection():
     if _collection is None:
         client = chromadb.PersistentClient(path=DB_PATH)
         # hnsw:space=cosine means ChromaDB measures similarity by angle between vectors,
-        # not raw distance — better for text where direction matters more than magnitude
+        # not raw distance - better for text where direction matters more than magnitude
         _collection = client.get_or_create_collection(
             name=COLLECTION_NAME,
             metadata={"hnsw:space": "cosine"},
@@ -65,10 +65,10 @@ def retrieve(query: str, k: int = 5) -> list:
     Embed the query and return the top-k most semantically similar chunks.
 
     Returns a list of dicts, each with:
-        text        — the raw chunk text
-        source      — filename the chunk came from
-        chunk_index — position of this chunk within its source file
-        distance    — cosine distance in [0, 1] (lower = more relevant)
+        text        - the raw chunk text
+        source      - filename the chunk came from
+        chunk_index - position of this chunk within its source file
+        distance    - cosine distance in [0, 1] (lower = more relevant)
     """
     model = _get_model()
     collection = _get_collection()

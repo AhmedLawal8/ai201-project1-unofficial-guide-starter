@@ -6,6 +6,8 @@
 > Every section below is required for submission. One-liners will not receive full credit.
 
 ---
+## Video Link 
+https://drive.google.com/file/d/11hrmoytgHVqyo7HxUiQVIT3eEPyT4dv7/view?usp=sharing
 
 ## Domain
 
@@ -76,7 +78,7 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 
 ## Retrieval and Response Examples
 
-### Example 1 — Hawks Nest wait times
+### Example 1 - Hawks Nest wait times
 
 **Query:** "How long are the wait times at Hawks Nest for lunch if I order French Fries?"
 
@@ -88,14 +90,14 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 > `[student_review1.txt]`  
 > Food trucks like Fud Truk, Purple Pita, and Talon serve some of the best food on campus. However, they are inconsistent and often unavailable during bad weather, Fridays, or weekends.
 
-**Why these chunks are relevant:** The first chunk is an exact match — it contains the specific phrase "40 minutes for fries" and names Hawks Nest directly. The embedding model picked this up because the query and the chunk share the same concrete entities (Hawks Nest, fries, wait time). The second chunk came from the same file and shares surrounding context about on-campus food quality, pulling it into the top-k by proximity in the embedding space even though it adds nothing to the answer. The model correctly ignored it.
+**Why these chunks are relevant:** The first chunk is an exact match - it contains the specific phrase "40 minutes for fries" and names Hawks Nest directly. The embedding model picked this up because the query and the chunk share the same concrete entities (Hawks Nest, fries, wait time). The second chunk came from the same file and shares surrounding context about on-campus food quality, pulling it into the top-k by proximity in the embedding space even though it adds nothing to the answer. The model correctly ignored it.
 
 **System response:**
 
 > Wait times of 40 minutes for fries are not uncommon at Hawks Nest [student_review1.txt]. The location is also frequently criticized for incorrect orders and poor food quality overall [student_review1.txt].
 
 
-### Example 2 — Meal plan changes
+### Example 2 - Meal plan changes
 
 **Query:** "What changes has Lehigh made to the meal plans and how do students feel about it?"
 
@@ -110,15 +112,15 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 > `[meal_plan_changes.txt]`  
 > Audrey Pankauskas, '28, said she's worried about running out of dining dollars, because her meals usually cost at least $13. "I'm not going to go to the big dining halls as much as I did last year," Pankauskas said. "Everything is dining dollars."
 
-**Why these chunks are relevant:** All three chunks came from `meal_plan_changes.txt`, which is the dedicated article on this exact topic. The query used the phrase "meal plans" and "how do students feel," which align closely with how the source document is written — it's a student news article that interleaves policy facts with student quotes. The retriever's top-k was almost entirely this file, which is why the response was the most complete of all five test questions.
+**Why these chunks are relevant:** All three chunks came from `meal_plan_changes.txt`, which is the dedicated article on this exact topic. The query used the phrase "meal plans" and "how do students feel," which align closely with how the source document is written - it's a student news article that interleaves policy facts with student quotes. The retriever's top-k was almost entirely this file, which is why the response was the most complete of all five test questions.
 
 **System response:**
 
-> Lehigh Dining reduced the number of meal plans from eight to six for the 2025-26 academic year [meal_plan_changes.txt]. The previous $7-per-swipe equivalency at retail locations has been replaced with "meal exchanges" [meal_plan_changes.txt]. The default first-year plan now costs $3,690 per semester, up from $3,550 [meal_plan_changes.txt]. Student reactions are mixed — some are frustrated by the lost flexibility, with one student saying "I liked what we had last year, where if I wanted to spend $7 equivalent of a meal swipe, I could" [meal_plan_changes.txt].
+> Lehigh Dining reduced the number of meal plans from eight to six for the 2025-26 academic year [meal_plan_changes.txt]. The previous $7-per-swipe equivalency at retail locations has been replaced with "meal exchanges" [meal_plan_changes.txt]. The default first-year plan now costs $3,690 per semester, up from $3,550 [meal_plan_changes.txt]. Student reactions are mixed - some are frustrated by the lost flexibility, with one student saying "I liked what we had last year, where if I wanted to spend $7 equivalent of a meal swipe, I could" [meal_plan_changes.txt].
 
 ---
 
-### Example 3 — Dietary accommodations
+### Example 3 - Dietary accommodations
 
 **Query:** "What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?"
 
@@ -135,17 +137,17 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 
 ---
 
-### Out-of-scope query — system refusal
+### Out-of-scope query - system refusal
 
 **Query:** "Where can I eat off campus?"
 
-**Top retrieved chunks:** The retriever returned chunks from `student_review1.txt`, `student_review3.txt`, and `dietary_restrictions.txt` — all on-campus content. These ranked highest because on-campus review chunks frequently use the phrase "off campus" as a contrast point ("the dining hall isn't worth it, just eat off campus"), which the embedding model matched to the query even though those chunks contain no actual off-campus restaurant information.
+**Top retrieved chunks:** The retriever returned chunks from `student_review1.txt`, `student_review3.txt`, and `dietary_restrictions.txt` - all on-campus content. These ranked highest because on-campus review chunks frequently use the phrase "off campus" as a contrast point ("the dining hall isn't worth it, just eat off campus"), which the embedding model matched to the query even though those chunks contain no actual off-campus restaurant information.
 
 **System response:**
 
 > I don't have enough information to provide a comprehensive answer about eating off campus, as the provided sources primarily discuss on-campus dining options [student_review1.txt, student_review3.txt, dietary_restrictions.txt]. None of the sources mention specific off-campus dining locations.
 
-The model correctly refused rather than hallucinating restaurant names. The refusal instruction ("Only say 'I don't have enough information' if NONE of the sources address the question") fired correctly here because the retrieved chunks genuinely contained no relevant information, even though `off_campus_food.txt` and `blog_post_.txt` existed in the corpus — they just weren't retrieved for this query.
+The model correctly refused rather than hallucinating restaurant names. The refusal instruction ("Only say 'I don't have enough information' if NONE of the sources address the question") fired correctly here because the retrieved chunks genuinely contained no relevant information, even though `off_campus_food.txt` and `blog_post_.txt` existed in the corpus - they just weren't retrieved for this query.
 
 
 ---
@@ -165,33 +167,33 @@ My System Prompt included the following instruction:
 
 - *"Answer using ONLY the information in the provided sources."*
 - *"Cite every claim inline with the source filename in square brackets, e.g. [student_review1.txt]."*
-- *"Focus on whichever sources best answer the question — ignore sources that are not relevant and do not mention them."*
+- *"Focus on whichever sources best answer the question - ignore sources that are not relevant and do not mention them."*
 - *"If one source gives a partial answer and another gives a fuller one, use the fuller one."*
 - *"Only say 'I don't have enough information' if NONE of the sources address the question."*
 - *"Do not add facts from your own training data."*
 
-Beyond the text instruction, there are two structural choices that reinforce grounding. First, each retrieved chunk is formatted in the prompt as `[filename]\n<chunk text>` — the filename is the header, not a number so the model has no choice but to reference documents by their actual names when it cites. Second, the temperature is set to `0.2`, which keeps the model close to the source text and discourages creative elaboration.
+Beyond the text instruction, there are two structural choices that reinforce grounding. First, each retrieved chunk is formatted in the prompt as `[filename]\n<chunk text>` - the filename is the header, not a number so the model has no choice but to reference documents by their actual names when it cites. Second, the temperature is set to `0.2`, which keeps the model close to the source text and discourages creative elaboration.
 
 **How source attribution is surfaced in the response:**
 
 The LLM produces inline citations using the exact filename it was given in the source header, for example `[meal_plan_changes.txt]`. This works because the prompt labels every chunk with its filename before the text, so when the model writes a claim, it copies that label into its citation.
 
-In the Gradio UI, a "Sources retrieved" panel shows the unique filenames from all k=5 retrieved chunks. This is built by collecting the `source` field from each chunk and deduplicating with a `set()` — so if three of the five chunks came from the same file, that file appears only once. The panel reflects what was searched, not necessarily what the model cited, since the model is instructed to ignore chunks it finds irrelevant.
+In the Gradio UI, a "Sources retrieved" panel shows the unique filenames from all k=5 retrieved chunks. This is built by collecting the `source` field from each chunk and deduplicating with a `set()` - so if three of the five chunks came from the same file, that file appears only once. The panel reflects what was searched, not necessarily what the model cited, since the model is instructed to ignore chunks it finds irrelevant.
 
 ---
 
 ## Evaluation Report
 
 <!-- Run your 5 test questions from planning.md through your system and record the results.
-     Be honest — a partially accurate or inaccurate result that you explain well is more
+     Be honest - a partially accurate or inaccurate result that you explain well is more
      valuable than a suspiciously perfect result. -->
 
 | # | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
 |---|----------|-----------------|------------------------------|-------------------|-------------------|
-| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives? | On-campus food is decent but overpriced; Rathbone is a hit or miss. Off-campus options like Nawab Indian Restaurant and Hi-Pot are recommended. | Described on-campus dining as "pretty decent but overpriced" and noted the meal plan isn't worth $3k; said it couldn't find a direct comparison to off-campus options | Partially relevant - retrieved meal plan and general review chunks instead of the off-campus restaurant sources | Partially accurate — correctly described on-campus quality but missed the off-campus comparison entirely |
+| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives? | On-campus food is decent but overpriced; Rathbone is a hit or miss. Off-campus options like Nawab Indian Restaurant and Hi-Pot are recommended. | Described on-campus dining as "pretty decent but overpriced" and noted the meal plan isn't worth $3k; said it couldn't find a direct comparison to off-campus options | Partially relevant - retrieved meal plan and general review chunks instead of the off-campus restaurant sources | Partially accurate - correctly described on-campus quality but missed the off-campus comparison entirely |
 | 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly? | Students report vegan options are avaliable at Rathbone such as Simple Servings which use ingredients that do not contain milk, eggs, wheat, soy, shellfish, peanuts, tree nuts, sesame, or gluten. | Lehigh offers allergy-friendly options like Simple Servings (and SimpleZone), which avoid common allergens like milk, eggs, gluten, peanuts, and tree nuts. Staff are trained in food allergy safety, and dietitians and dining staff are available to help students with dietary needs, though cross-contact can’t be fully eliminated. A student with celiac disease also said she was able to eat safely at Lehigh but had to be careful when choosing meals. | Relevant | Accurate |
 | 3 | How long are the wait times at Hawks Nest for lunch if I order French Fries? | Not uncommon to wait 40 minutes for an order of French fries | "Wait times of 40 minutes for fries are not uncommon at Hawks Nest" | Relevant - exact match to source | Accurate |
-| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Plans reduced from 8 to 6; meal swipes can no longer be exchanged for dining dollars — replaced with "meal exchanges." Cost increased to $3,690/semester. Students have mixed reactions, with some frustrated by the lost flexibility. | Covered the 8 -> 6 plan reduction, loss of swipe-to-dollar exchange, cost increase to $3,690/semester, and mixed student reactions with quotes | Relevant and even more notable meal_plan_changes.txt dominated the top-k results | Accurate |
+| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Plans reduced from 8 to 6; meal swipes can no longer be exchanged for dining dollars - replaced with "meal exchanges." Cost increased to $3,690/semester. Students have mixed reactions, with some frustrated by the lost flexibility. | Covered the 8 -> 6 plan reduction, loss of swipe-to-dollar exchange, cost increase to $3,690/semester, and mixed student reactions with quotes | Relevant and even more notable meal_plan_changes.txt dominated the top-k results | Accurate |
 | 5 | Where can I find some good local Chinese food around Lehigh? | ShangWei Szechuan in Bethlehem serves authentic Szechuan cuisine including Kung Pao chicken and Dandan noodles. U & Tea dishes like stir-fried string beans and chicken ho fun noodles. | Students can find good local Chinese food at ShangWei Szechuan in Bethlehem, which serves spicy and flavorful Chinese food [blog_post_.txt]. Additionally, U & Tea is another option in the Lehigh Valley that offers well-prepared Chinese dishes, including stir-fried string beans and chicken ho fun noodles [off_campus_food.txt]. |Relevant | Accurate |
 
 **Retrieval quality:** Relevant / Partially relevant / Off-target  
@@ -207,7 +209,7 @@ In the Gradio UI, a "Sources retrieved" panel shows the unique filenames from al
      "The answer was wrong" is not an explanation.
 
      "The relevant information was split across a chunk boundary, so retrieval returned
-     only half the context — the model didn't have enough to answer correctly" is an explanation.
+     only half the context - the model didn't have enough to answer correctly" is an explanation.
 
      "The embedding model treated the professor's nickname as out-of-vocabulary and returned
      results from an unrelated review" is an explanation. -->
@@ -257,5 +259,5 @@ The spec planned for 200–250 word chunks with 50-word overlap, but after inges
 **Instance 2**
 
 - *What I gave the AI:* The Grounded Generation requirement and a description of how I wanted inline source attribution to work, and asked Claude to write the system prompt for `generator.py`.
-- *What it produced:* A system prompt that told the model to cite sources as numbered references — [1], [2], [3] — matching the order chunks appeared in the prompt.
-- *What I changed or overrode:* Changed the citation format from numbered references to actual filenames (e.g., `[meal_plan_changes.txt]`). Numbered citations break as soon as retrieval returns chunks in a different order on the next query — the model would cite [2] but [2] now points to a different document. Filenames are stable regardless of retrieval order, so attribution stays correct.
+- *What it produced:* A system prompt that told the model to cite sources as numbered references [1], [2], [3] matching the order chunks appeared in the prompt.
+- *What I changed or overrode:* Changed the citation format from numbered references to actual filenames (e.g., `[meal_plan_changes.txt]`). Numbered citations break as soon as retrieval returns chunks in a different order on the next query, the model would cite [2] but [2] now points to a different document. Filenames are stable regardless of retrieval order, so attribution stays correct.

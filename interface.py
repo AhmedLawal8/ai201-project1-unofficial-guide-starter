@@ -2,7 +2,7 @@ import gradio as gr
 from retriever import retrieve
 from generator import generate
 
-# The 5 evaluation questions from planning.md — pre-loaded as clickable examples
+# The 5 evaluation questions from planning.md - pre-loaded as clickable examples
 EXAMPLES = [
     "How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives?",
     "What food allergies or dietary accommodations does Lehigh dining handle well or poorly?",
@@ -18,7 +18,7 @@ def answer_question(question: str):
 
     chunks = retrieve(question, k=5)
     answer = generate(question, chunks)
-    
+
     unique_sources = sorted(set(c["source"] for c in chunks))
     sources_text = "\n".join(f"• {s}" for s in unique_sources)
 

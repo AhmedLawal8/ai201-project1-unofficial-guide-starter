@@ -12,7 +12,7 @@ def _get_client():
     if _client is None:
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key or api_key == "your_key_here":
-            raise ValueError("GROQ_API_KEY not set — copy .env.example to .env and add your key.")
+            raise ValueError("GROQ_API_KEY not set - copy .env.example to .env and add your key.")
         _client = Groq(api_key=api_key)
     return _client
 
@@ -44,7 +44,7 @@ def generate(query: str, chunks: list) -> str:
         "- Answer using ONLY the information in the provided sources.\n"
         "- Cite every claim inline with the source filename in square brackets, "
         "e.g. [student_review1.txt]. Use the exact filename as shown in the source headers.\n"
-        "- Focus on whichever sources best answer the question — ignore sources that are "
+        "- Focus on whichever sources best answer the question - ignore sources that are "
         "not relevant and do not mention them.\n"
         "- If one source gives a partial answer and another gives a fuller one, use the fuller one.\n"
         "- Only say 'I don't have enough information' if NONE of the sources address the question.\n"

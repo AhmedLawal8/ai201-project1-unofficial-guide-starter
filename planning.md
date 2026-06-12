@@ -78,7 +78,7 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 | 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives? | On-campus food is decent but overpriced; Rathbone is a hit or miss. Off-campus options like Nawab Indian Restaurant and Hi-Pot are recommended. |
 | 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly? | Simple Servings at Rathbone is free of the top 9 allergens (milk, eggs, wheat, soy, shellfish, peanuts, tree nuts, sesame, gluten). Vegan options are available. Some food safety concerns (raw chicken) have been rep
 | 3 | How long are the wait times at Hawks Nest for lunch if I order French Fries? | Not uncommon to wait 40 minutes for an order of French fries. |
-| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Plans reduced from 8 to 6; meal swipes can no longer be exchanged for dining dollars — replaced with "meal exchanges." Cost increased to $3,690/semester. Students have mixed reactions, with some frustrated by the lost flexibility. |
+| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Plans reduced from 8 to 6; meal swipes can no longer be exchanged for dining dollars - replaced with "meal exchanges." Cost increased to $3,690/semester. Students have mixed reactions, with some frustrated by the lost flexibility. |
 | 5 | Where can I find some good local Chinese food around Lehigh? | ShangWei Szechuan in Bethlehem serves authentic Szechuan cuisine including Kung Pao chicken and Dandan noodles. U & Teishes like stir-fried string beans and chicken ho fun noodles. |
 
 ---
@@ -133,7 +133,7 @@ flowchart TD
 - **Tool:** Claude
 - **Input:** The "Document Ingestion Pipeline" and "Chunking Strategy" sections
   of this planning.md
-- **Expected output:** Two functions — `clean_text(raw: str) -> str` that strips
+- **Expected output:** Two functions - `clean_text(raw: str) -> str` that strips
   whitespace artifacts and blank lines, and `chunk_text(text: str, chunk_size: int,
   overlap: int) -> list[str]` that splits on sentence/paragraph boundaries with
   200–250 word chunks and 30–40 word overlap
@@ -145,7 +145,7 @@ flowchart TD
 - **Tool:** Claude
 - **Input:** The "Vector Store and Semantic Search" section plus the ChromaDB and
   sentence-transformers entries from requirements.txt
-- **Expected output:** Two functions — `embed_and_store(chunks: list[str], metadata:
+- **Expected output:** Two functions - `embed_and_store(chunks: list[str], metadata:
   list[dict])` that encodes chunks with all-MiniLM-L6-v2 and upserts them into a
   local ChromaDB collection, and `retrieve(query: str, k: int) -> list[dict]` that
   returns the top-k chunks with their source filenames and similarity scores
