@@ -45,7 +45,7 @@ def chunk_text(text: str, chunk_size: int = 200, overlap: int = 50) -> list:
             current_words = current_words[-overlap:] + sentence_words
         else:
             current_words.extend(sentence_words)
-            
+
     # Add any remaining words as the final chunk
     if current_words:
         chunks.append(' '.join(current_words))
@@ -80,13 +80,10 @@ if __name__ == "__main__":
 
     # Print the first chunk from each source so you can visually verify
     # that chunks are readable and not cut mid-sentence
-    seen_sources = set()
     for chunk_data in all_chunks:
         src = chunk_data["source"]
-        if src in seen_sources:
-            continue
-        seen_sources.add(src)
+        id = chunk_data["chunk_index"]
         words = len(chunk_data["text"].split())
-        print(f"=== {src}  (chunk 0 — {words} words) ===")
+        print(f"=== {src}_{id}  (chunk  — {words} words) ===")
         print(chunk_data["text"])
         print()

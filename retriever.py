@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     # --- Step 2: Verify retrieval with a known query (from planning.md) ---
     print("\n=== Step 2: Retrieval verification ===")
-    test_query = "What are the dining options on campus?"
+    test_query = "What changes has Lehigh made to the meal plans and how do students feel about it?"
     print(f"Query: '{test_query}'")
     print("-" * 60)
 
@@ -118,5 +118,5 @@ if __name__ == "__main__":
     for i, r in enumerate(results, 1):
         score = r["similarity"]
         flag = " <-- TARGET" if score >= 0.7 else ""
-        print(f"\n[{i}] {r['source']}  |  similarity: {score}{flag}")
-        print(r["text"][:300])
+        print(f"\n[{i}] {r['source']} chunk {r['chunk_index']}  |  similarity: {score}{flag}")
+        print(r["text"])
