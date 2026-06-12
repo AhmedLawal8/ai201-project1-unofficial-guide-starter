@@ -32,20 +32,22 @@ def generate(query: str, chunks: list) -> str:
     Returns:
         The model's answer as a string, with inline [source] citations.
     """
-    # Format each chunk as a numbered source block with its filename visible
+    # Label each chunk by its source filename so the model cites names, not numbers
     sources_block = ""
-    for i, chunk in enumerate(chunks, 1):
-        sources_block += f"[{i}] {chunk['source']}\n{chunk['text']}\n\n"
+    for chunk in chunks:
+        sources_block += f"[{chunk['source']}]\n{chunk['text']}\n\n"
 
     system_message = (
         "You are an unofficial student guide to dining at Lehigh University, "
         "built from real student reviews, official dining information, and campus resources.\n\n"
         "Rules:\n"
-        "- Answer using ONLY the information in the numbered sources provided.\n"
-        "- Cite sources inline using the filename in square brackets, e.g. [student_review1.txt].\n"
-        "- If a source is particularly relevant, quote it briefly.\n"
-        "- If the answer is not present in the sources, say: "
-        "'I don't have enough information in my sources to answer that.'\n"
+        "- Answer using ONLY the information in the provided sources.\n"
+        "- Cite every claim inline with the source filename in square brackets, "
+        "e.g. [student_review1.txt]. Use the exact filename as shown in the source headers.\n"
+        "- Focus on whichever sources best answer the question — ignore sources that are "
+        "not relevant and do not mention them.\n"
+        "- If one source gives a partial answer and another gives a fuller one, use the fuller one.\n"
+        "- Only say 'I don't have enough information' if NONE of the sources address the question.\n"
         "- Do not add facts from your own training data."
     )
 

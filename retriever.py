@@ -68,7 +68,7 @@ def retrieve(query: str, k: int = 5) -> list:
         text        — the raw chunk text
         source      — filename the chunk came from
         chunk_index — position of this chunk within its source file
-        similarity  — cosine similarity score in [0, 1] (higher = more relevant)
+        distance    — cosine distance in [0, 1] (lower = more relevant)
     """
     model = _get_model()
     collection = _get_collection()
@@ -91,8 +91,7 @@ def retrieve(query: str, k: int = 5) -> list:
             "text": doc,
             "source": meta["source"],
             "chunk_index": meta["chunk_index"],
-            # ChromaDB cosine distance = 1 - cosine_similarity, so we invert it
-            "similarity": round(1 - dist, 4),
+            "distance": round(dist, 4),
         })
 
     return chunks
@@ -110,13 +109,13 @@ if __name__ == "__main__":
 
     # --- Step 2: Verify retrieval with a known query (from planning.md) ---
     print("\n=== Step 2: Retrieval verification ===")
-    test_query = "What changes has Lehigh made to the meal plans and how do students feel about it?"
+    test_query = "What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?"
     print(f"Query: '{test_query}'")
     print("-" * 60)
 
-    results = retrieve(test_query, k=4)
+    results = retrieve(test_query, k=5)
     for i, r in enumerate(results, 1):
-        score = r["similarity"]
-        flag = " <-- TARGET" if score >= 0.7 else ""
-        print(f"\n[{i}] {r['source']} chunk {r['chunk_index']}  |  similarity: {score}{flag}")
+        score = r["distance"]
+        flag = " <-- TARGET" if score <= 0.3 else ""
+        print(f"\n[{i}] {r['source']} chunk {r['chunk_index']}  |  distance: {score}{flag}")
         print(r["text"])

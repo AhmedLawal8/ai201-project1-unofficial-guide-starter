@@ -10,13 +10,13 @@ def clean_text(raw: str) -> str:
     return cleaned.strip()
 
 
-def chunk_text(text: str, chunk_size: int = 200, overlap: int = 50) -> list:
+def chunk_text(text: str, chunk_size: int = 150, overlap: int = 35) -> list:
     """
     Split text into overlapping chunks that respect sentence boundaries.
 
     Strategy (from planning.md):
-      - chunk_size: target max words per chunk (~200 words ≈ 260 tokens, near the
-        256-token limit of all-MiniLM-L6-v2 — keep at or below 200 to be safe)
+      - chunk_size: target max words per chunk (~150 words ≈ 195 tokens, well within
+        the 256-token limit of all-MiniLM-L6-v2)
       - overlap: words carried from the end of one chunk into the start of the next,
         so a sentence that straddles a boundary isn't lost
       - Boundaries: split on paragraphs first, then on sentence-ending punctuation,

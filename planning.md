@@ -75,10 +75,10 @@ With no cost constraint I'd weigh the context length, domain accuracy, multili
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives?  | Students generally enjoy many of the off-campus options such as the Nawab Indian Restaurant and Hi-Pot  |
-| 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?  | Students report vegan options are avaliable at Rathbone such as Simple Servings |
-| 3 | How long are the wait times at Hawks Nest for Lunch if I order French Fries | Not uncommon to wait 40 minutes for an order of French fries |
-| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Meal swipes previosuly had a $7 equivalency at retail dining locations. Lehigh Dining has swapped out this program with “meal exchanges,” leaving students annoyed and worried.
+| 1 | How do students describe the quality of food at Lehigh dining halls compared to off-campus alternatives?  | Students are pretty dissapointed with the food at Lehigh. Rathbone is typically a hit or miss but there are a vareity of options avaliable |
+| 2 | What food allergies or dietary accommodations do students say Lehigh dining handles well or poorly?  | Students report vegan options are avaliable at Rathbone such as Simple Servings which use ingredients that do not contain milk, eggs, wheat, soy, shellfish, peanuts, tree nuts, sesame, or gluten  |
+| 3 | How long are the wait times at Hawks Nest for Lunch if I order French Fries | It is not uncommon to wait 40 minutes for an order of French fries |
+| 4 | What changes has Lehigh made to the meal plans and how do students feel about it? | Lehigh cut meal plan options from eight to six and got rid of swapping swipes for dining dollars, replacing it with meal exchanges and more dining dollars in some plans. Students are kind of mixed on it, with some saying it feels less flexible and harder to budget, especially with dining dollars running out faster. |
 | 5 | Where can I find some good local Chinese Food around Lehigh? | If you're in the mood for spicy and flavorful Chinese food, I'd recommend ShangWei Szechuan |
 
 ---
